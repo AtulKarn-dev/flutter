@@ -36,6 +36,7 @@ class DrawerHeader extends StatelessWidget {
     this.duration = const Duration(milliseconds: 250),
     this.curve = Curves.fastOutSlowIn,
     required this.child,
+    this.showDivider = true
   });
 
   /// Decoration for the main drawer header [Container]; useful for applying
@@ -70,6 +71,7 @@ class DrawerHeader extends StatelessWidget {
   ///
   /// {@macro flutter.widgets.ProxyWidget.child}
   final Widget? child;
+  final bool showDivider;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class DrawerHeader extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         border: Border(
-          bottom: Divider.createBorderSide(context),
+          bottom: showDivider? Divider.createBorderSide(context) : BorderSide.none,
         ),
       ),
       child: AnimatedContainer(
@@ -90,14 +92,16 @@ class DrawerHeader extends StatelessWidget {
         decoration: decoration,
         duration: duration,
         curve: curve,
-        child: child == null ? null : DefaultTextStyle(
-          style: theme.textTheme.bodyLarge!,
-          child: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
-            child: child!,
-          ),
-        ),
+        child: child == null
+            ? null
+            : DefaultTextStyle(
+                style: theme.textTheme.bodyLarge!,
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: child!,
+                ),
+              ),
       ),
     );
   }
